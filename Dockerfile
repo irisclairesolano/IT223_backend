@@ -22,35 +22,28 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
-# Copy composer files first
+# Copy only composer files first
 COPY composer.json composer.lock ./
 
-# Install dependencies
-RUN composer install --no-dev --no-scripts --no-autoloader
+# ✅ Full install with autoloader + scripts
+RUN composer install --no-dev --optimize-autoloader
 
-# Copy the rest of the application
+# Copy rest of the app
 COPY . .
 
-# Generate application key
-RUN php artisan key:generate
-
-# Clear and cache configuration
-RUN php artisan config:clear && \
-    php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache
-
-# Run migrations
-RUN php artisan migrate --force
-
-# Optimize autoloader
-RUN composer dump-autoload --optimize
+# ✅ Comment these out — run them in the Render Shell instead after deploy
+# RUN php artisan key:generate
+# RUN php artisan migrate --force
+# RUN php artisan config:clear && \
+#     php artisan config:cache && \
+#     php artisan route:cache && \
+#     php artisan view:cache
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www
 
-# Expose port 9000
+# Expose port (optional, Render uses web service port instead)
 EXPOSE 9000
 
 # Start PHP-FPM
-CMD ["php-fpm"] 
+CMD ["php-fpm"]
