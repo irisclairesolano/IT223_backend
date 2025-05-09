@@ -34,6 +34,12 @@ COPY . .
 # Generate application key
 RUN php artisan key:generate
 
+# Clear and cache configuration
+RUN php artisan config:clear && \
+    php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan view:cache
+
 # Run migrations
 RUN php artisan migrate --force
 
