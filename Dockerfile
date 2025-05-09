@@ -25,8 +25,8 @@ WORKDIR /var/www
 # ✅ Copy everything (artisan, app, etc.)
 COPY . .
 
-# ✅ NOW run composer install
-RUN composer install --no-dev --optimize-autoloader
+# ✅ NOW run composer install with no scripts
+RUN composer install --no-dev --no-scripts --optimize-autoloader
 
 # 🔒 Skip running artisan stuff during build (do it after deploy)
 # RUN php artisan key:generate
@@ -36,7 +36,7 @@ RUN composer install --no-dev --optimize-autoloader
 # Set permissions
 RUN chown -R www-data:www-data /var/www
 
-# Expose port
+# Expose port for PHP-FPM
 EXPOSE 9000
 
 # Start PHP-FPM
