@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api',
+    baseURL: 'it223-backend-production.up.railway.app/api',
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -52,4 +52,4 @@ export const userService = {
     delete: (id) => api.delete(`/users/${id}`)
 };
 
-export default api; 
+export default api;
