@@ -14,6 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            AdminUserSeeder::class,
+        ]);
+
         // Create 15 users
         User::factory(15)->create();
 
