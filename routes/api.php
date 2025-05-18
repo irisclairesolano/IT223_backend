@@ -27,6 +27,12 @@ Route::post('/login', [AuthController::class, 'login']);
 // 🔒 Protected routes (require Sanctum auth)
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UsersController::class);
+    Route::get('/dashboard/counts', function () {
+        return response()->json([
+            'total_users' => User::count(),
+            'total_books' => \App\Models\Book::count()
+        ]);
+    });
 });
 
 Route::get('/test-db', function () {
