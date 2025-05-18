@@ -8,6 +8,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\BookController;
 use App\Models\User;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,12 +28,7 @@ Route::post('/login', [AuthController::class, 'login']);
 // 🔒 Protected routes (require Sanctum auth)
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UsersController::class);
-    Route::get('/dashboard/counts', function () {
-        return response()->json([
-            'total_users' => User::count(),
-            'total_books' => \App\Models\Book::count()
-        ]);
-    });
+    Route::get('/dashboard/counts', [DashboardController::class, 'getCounts']);
 });
 
 Route::get('/test-db', function () {
