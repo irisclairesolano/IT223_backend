@@ -39,3 +39,7 @@ Route::get('/test-db', function () {
         return response()->json(['error' => $e->getMessage()], 500);
     }
 });
+
+
+Route::post('/borrow', [TransactionController::class, 'store']);
+Route::post('/return/{id}', [TransactionController::class, 'returnBook']);
