@@ -10,6 +10,15 @@ use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
+
+
+        public function index()
+    {
+        $transactions = Transaction::with(['user', 'book'])->get();
+
+        return response()->json($transactions);
+    }
+
     // Borrow a book
     public function store(Request $request)
     {

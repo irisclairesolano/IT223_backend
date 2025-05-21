@@ -57,3 +57,4 @@ Route::post('/borrow', [TransactionController::class, 'store']);
 Route::post('/return/{id}', [TransactionController::class, 'returnBook']);
 
 
+Route::get('/transactions', [TransactionController::class, 'index']);
