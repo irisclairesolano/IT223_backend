@@ -42,14 +42,18 @@ Route::get('/test-db', function () {
 });
 
 // Borrow a book
+// Route::post('/borrow', [TransactionController::class, 'store']);
+// Route::post('/return/{id}', [TransactionController::class, 'returnBook']);
+// Route::get('/transactions', [TransactionController::class, 'index']);
+// Route::get('/transactions/{id}', [TransactionController::class, 'show']);
+// Route::get('/transactions/user/{id}', [TransactionController::class, 'showByUser']);
+
+// // Additional Transaction Routes
+// Route::put('/transactions/{id}', [TransactionController::class, 'update']);
+// Route::delete('/transactions/{id}', [TransactionController::class, 'destroy']);
+
+Route::apiResource('transactions', TransactionController::class);
 Route::post('/borrow', [TransactionController::class, 'store']);
 Route::post('/return/{id}', [TransactionController::class, 'returnBook']);
-Route::get('/transactions', [TransactionController::class, 'index']);
-Route::get('/transactions/{id}', [TransactionController::class, 'show']);
-Route::get('/transactions/user/{id}', [TransactionController::class, 'showByUser']);
-
-// Additional Transaction Routes
-Route::put('/transactions/{id}', [TransactionController::class, 'update']);
-Route::delete('/transactions/{id}', [TransactionController::class, 'destroy']);
 
 
