@@ -1,5 +1,8 @@
 <?php
 
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use App\Models\Book;
 use Illuminate\Http\Request;
@@ -12,6 +15,7 @@ class TransactionController extends Controller
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'book_id' => 'required|exists:books,id',
+            'due_at' => 'nullable|date|after:today'  // Added validation for optional due date
         ]);
 
         $book = Book::findOrFail($request->book_id);
@@ -24,12 +28,15 @@ class TransactionController extends Controller
             'user_id' => $request->user_id,
             'book_id' => $book->id,
             'borrowed_at' => now(),
-            'due_at' => now()->addDays(7), // change if needed
+            'due_at' => $request->due_at ?? now()->addDays(7), // Use provided due_at or default to 7 days
         ]);
 
         $book->decrement('available_copies');
 
-        return response()->json(['message' => 'Book borrowed!', 'transaction' => $transaction]);
+        return response()->json([
+            'message' => 'Book borrowed!', 
+            'transaction' => $transaction
+        ]);
     }
 
     // Return a book
