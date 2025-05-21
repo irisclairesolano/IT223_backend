@@ -52,7 +52,7 @@ Route::get('/test-db', function () {
 // Route::put('/transactions/{id}', [TransactionController::class, 'update']);
 // Route::delete('/transactions/{id}', [TransactionController::class, 'destroy']);
 
-Route::apiResource('transactions', TransactionController::class);
+// Route::apiResource('transactions', TransactionController::class);
 Route::post('/borrow', [TransactionController::class, 'store']);
 Route::post('/return/{id}', [TransactionController::class, 'returnBook']);
 
