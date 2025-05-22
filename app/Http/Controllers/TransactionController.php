@@ -6,16 +6,12 @@ use App\Models\Transaction;
 use App\Models\Book;
 use Illuminate\Http\Request;
 
-
-
 class TransactionController extends Controller
 {
-
-
-        public function index()
+    // Get all transactions with user and book
+    public function index()
     {
         $transactions = Transaction::with(['user', 'book'])->get();
-
         return response()->json($transactions);
     }
 
@@ -37,21 +33,28 @@ class TransactionController extends Controller
             'user_id' => $request->user_id,
             'book_id' => $book->id,
             'borrowed_at' => now(),
-            'due_at' => now()->addDays(7), // change if needed
+            'due_at' => now()->addDays(7),
         ]);
 
         $book->decrement('available_copies');
 
-        return response()->json(['message' => 'Book borrowed!', 'transaction' => $transaction]);
+        return response()->json([
+            'message' => 'Book borrowed!',
+            'transaction' => $transaction,
+        ]);
     }
 
     // Return a book
     public function returnBook($id)
     {
-        $transaction = Transaction::with('book')->findOrFail($id);
+        $transaction = Transaction::with('book')->find($id);
+
+        if (!$transaction) {
+            return response()->json(['message' => 'Transaction not found'], 404);
+        }
 
         if ($transaction->returned_at !== null) {
-            return response()->json(['message' => 'Already returned.'], 400);
+            return response()->json(['message' => 'Book already returned'], 400);
         }
 
         $now = now();
@@ -68,7 +71,7 @@ class TransactionController extends Controller
 
         return response()->json([
             'message' => 'Book returned!',
-            'late_fee' => $transaction->late_fee
+            'late_fee' => $transaction->late_fee ?? 0,
         ]);
     }
 }

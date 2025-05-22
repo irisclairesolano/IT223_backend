@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Book;
@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TransactionFactory extends Factory
 {
-    use HasFactory;
-    
     protected $model = Transaction::class;
 
     public function definition(): array

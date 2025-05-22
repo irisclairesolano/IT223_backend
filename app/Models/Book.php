@@ -17,4 +17,9 @@ class Book extends Model
         'total_copies',
         'available_copies',
     ];
+    
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }
