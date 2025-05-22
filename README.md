@@ -1,61 +1,115 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# IT223 Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based RESTful API backend for a library management system, supporting user authentication, book management, borrowing/returning books, and dashboard statistics.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- User registration and authentication (with Laravel Sanctum)
+- Book CRUD operations
+- Borrow and return books with late fee calculation
+- Transaction history and statistics
+- RESTful API endpoints
+- Database seeding and factories for development/testing
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.2+
+- Composer
+- Node.js & npm (for frontend assets, if needed)
+- PostgreSQL (or SQLite/MySQL, configurable via `.env`)
 
-## Learning Laravel
+## Getting Started
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 1. Clone the repository
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```sh
+git clone <your-repo-url>
+cd IT223_backend
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Install dependencies
 
-## Laravel Sponsors
+```sh
+composer install
+npm install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 3. Environment setup
 
-### Premium Partners
+Copy the example environment file and edit as needed:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+```sh
+cp .env.example .env
+```
 
-## Contributing
+Set your database credentials and `APP_KEY` in `.env`. Generate an app key if needed:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```sh
+php artisan key:generate
+```
 
-## Code of Conduct
+### 4. Database setup
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Run migrations and seeders:
 
-## Security Vulnerabilities
+```sh
+php artisan migrate --seed
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 5. Run the development server
+
+```sh
+php artisan serve
+```
+
+## API Endpoints
+
+All API routes are defined in [routes/api.php](routes/api.php):
+
+- **Books:**  
+  `GET /api/books`  
+  `POST /api/books`  
+  `GET /api/books/{id}`  
+  `PUT /api/books/{id}`  
+  `DELETE /api/books/{id}`
+
+- **Users:**  
+  `POST /api/register`  
+  `POST /api/login`  
+  (Protected) `GET /api/users`, `GET /api/users/{id}`, etc.
+
+- **Transactions:**  
+  `POST /api/borrow`  
+  `POST /api/return/{id}`  
+  `GET /api/transactions`  
+  `GET /api/transactions/{id}`  
+  `GET /api/transactions/user/{id}`
+
+- **Dashboard:**  
+  (Protected) `GET /api/dashboard/counts`
+
+## Authentication
+
+- Uses Laravel Sanctum for API token authentication.
+- Login returns a Bearer token to be used in the `Authorization` header.
+
+## Testing
+
+Run tests with:
+
+```sh
+php artisan test
+```
+
+## Project Structure
+
+- `app/Http/Controllers/` — API controllers
+- `app/Models/` — Eloquent models
+- `database/migrations/` — Database schema
+- `database/seeders/` — Seed data
+- `database/factories/` — Model factories for testing
+- `routes/api.php` — API route definitions
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced under the [MIT license](https://opensource.org/licenses/MIT).
